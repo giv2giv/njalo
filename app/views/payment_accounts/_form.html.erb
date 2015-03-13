@@ -1,0 +1,41 @@
+<%= form_for(@payment_account) do |f| %>
+  <% if @payment_account.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@payment_account.errors.count, "error") %> prohibited this payment_account from being saved:</h2>
+
+      <ul>
+      <% @payment_account.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :processor %><br>
+    <%= f.text_field :processor %>
+  </div>
+  <div class="field">
+    <%= f.label :user_id %><br>
+    <%= f.number_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :requires_reauth %><br>
+    <%= f.check_box :requires_reauth %>
+  </div>
+  <div class="field">
+    <%= f.label :external_account_id %><br>
+    <%= f.text_field :external_account_id %>
+  </div>
+  <div class="field">
+    <%= f.label :user_key %><br>
+    <%= f.text_field :user_key %>
+  </div>
+  <div class="field">
+    <%= f.label :user_pass %><br>
+    <%= f.text_field :user_pass %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

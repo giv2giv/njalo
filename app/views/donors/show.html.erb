@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @donor.name %>
+</p>
+
+<p>
+  <strong>Accepted terms:</strong>
+  <%= @donor.accepted_terms %>
+</p>
+
+<p>
+  <strong>Accepted terms on:</strong>
+  <%= @donor.accepted_terms_on %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @donor.address %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @donor.city %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @donor.state %>
+</p>
+
+<p>
+  <strong>Zip:</strong>
+  <%= @donor.zip %>
+</p>
+
+<p>
+  <strong>Phone number:</strong>
+  <%= @donor.phone_number %>
+</p>
+
+<p>
+  <strong>Type donor:</strong>
+  <%= @donor.type_donor %>
+</p>
+
+<%= link_to 'Edit', edit_donor_path(@donor) %> |
+<%= link_to 'Back', donors_path %>

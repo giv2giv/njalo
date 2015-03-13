@@ -1,0 +1,16 @@
+<div class="social-btn-bar">
+  <%= link_to user_omniauth_authorize_path(:facebook), class: "btn btn-circle btn-facebook" do %>
+      <i class="fa fa-facebook fa-lg"></i>
+  <% end %>
+  <%= link_to user_omniauth_authorize_path(:google_oauth2), class: "btn btn-circle btn-google-plus" do %>
+      <i class="fa fa-google-plus fa-lg"></i>
+  <% end %>
+  <%= link_to user_omniauth_authorize_path(:linkedin), class: "btn btn-circle btn-linkedin" do %>
+      <i class="fa fa-linkedin fa-lg"></i>
+  <% end %>
+  <%= link_to user_omniauth_authorize_path(:dwolla), class: "btn btn-circle btn-dwolla" do %>
+      <%=image_tag("dwolla.gif", height: '80', width: '80', alt: "Dwolla")%>
+  <% end %>
+  
+</div>
+<strong class="line-thru">or</strong>

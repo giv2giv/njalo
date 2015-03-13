@@ -1,0 +1,63 @@
+# Test settings
+
+force_ssl: true
+
+njalo:
+  url            : http://localhost:3000
+  fee_amount     : .00125
+  passthru_fee_amount: .035
+  grant_amount   : .0125
+  grant_password : reallyLongUnguessablePassword!!
+  share_precision    : 20
+  minimum_donation_amount : 5
+  email_support      : hello@yourdomain.org
+  cookie_key         : "really-long-SecureRandom-string" # Make sure this secret key is at least 30 characters and all random, no regular words or you'll be exposed to dictionary attacks.
+
+mailer:
+  enable_starttls_auto:   true
+  address:                smtpserver.yourdomain.org
+  port:                   25
+  authentication:         login
+  domain:                 yourdomain.org
+  user_name:              hello@yourdomain.org
+  password:               long-password
+
+dwolla:
+  api_key:        dwolla-api-key
+  api_secret:     dwolla-api-secret
+  account_id:     dwolla-account-id
+  sandbox:        true
+
+stripe:
+  api_key:             sk_test_yb0dcOLvlXCEfaQTEFfMCGGZ #test
+  publishable_key:     pk_test_d678rStKUyF2lNTZ3MfuOoHy #test
+
+etrade:
+  sandbox_mode:        "true"
+  etrade_site:          https://etwssandbox.etrade.com
+  oauth_consumer_key:  4d2fd4cd312c1904069f2970c89899df  #sandbox
+  consumer_secret:     57ae0f198d4b8efb4e73d95d35cfcc3f  #sandbox
+
+facebook:
+  app_id:               your-facebook-app-id
+  app_secret:           your-facebook-secret
+
+google:
+  client_id:            your-google-client-id
+  client_secret:        your-google-client-secret
+  geocoder_client_id:   your-google-maps-gme-client-id
+  geocoder_client_key:  your-google-maps-client-key
+
+twitter:
+  api_key:              your-twitter-api-key
+  api_secret:           your-twitter-api-secret
+  oauth_key:            your-twitter-oauth-key
+  oauth_secret:         your-twitter-oauth-secret
+
+linkedin:
+  api_key:              your-linkedin-api-key
+  api_secret:           your-linkedin-api-secret
+
+github:
+  client_id:            your-github-client-id
+  client_secret:        your-github-client-secret

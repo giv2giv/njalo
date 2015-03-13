@@ -1,0 +1,23 @@
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <%= link_to 'njalo', root_path, class: 'navbar-brand' %>
+    </div>
+    <div class="navbar-collapse collapse navbar-responsive-collapse">
+      <div class="navbar-right">
+        <% if signed_in? %>
+            <p class="navbar-text"><%= current_user.email %></p>
+            <%= link_to 'Logout', destroy_user_session_path, class: 'btn btn-primary navbar-btn', method: :delete %>
+        <% else %>
+          <%= link_to 'Sign In', new_user_session_path, class: 'btn btn-primary navbar-btn' %>
+          <%= link_to 'Sign Up', new_user_registration_path, class: 'btn btn-primary navbar-btn' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

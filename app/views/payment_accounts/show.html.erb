@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Processor:</strong>
+  <%= @payment_account.processor %>
+</p>
+
+<p>
+  <strong>Donor:</strong>
+  <%= @payment_account.user_id %>
+</p>
+
+<p>
+  <strong>Requires reauth:</strong>
+  <%= @payment_account.requires_reauth %>
+</p>
+
+<p>
+  <strong>External account:</strong>
+  <%= @payment_account.external_account_id %>
+</p>
+
+<p>
+  <strong>User key:</strong>
+  <%= @payment_account.user_key %>
+</p>
+
+<p>
+  <strong>User pass:</strong>
+  <%= @payment_account.user_pass %>
+</p>
+
+<%= link_to 'Edit', edit_payment_account_path(@payment_account) %> |
+<%= link_to 'Back', payment_accounts_path %>

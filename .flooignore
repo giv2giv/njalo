@@ -1,0 +1,20 @@
+#*
+*.o
+*.pyc
+*~
+extern/
+node_modules/
+tmp
+vendor/
+
+# Ignore bundler config
+/.bundle
+
+# Ignore all logfiles and tempfiles.
+/log/*.log
+/tmp
+
+/config/app.yml
+/config/database.yml
+
+/.idea

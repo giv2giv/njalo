@@ -1,0 +1,34 @@
+// Place all the styles related to the welcome controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.bg-1 {
+//  background: url('/assets/example/bg_blueplane.jpg') no-repeat center center fixed;
+  background-color: #B00100;
+  color:#fff;
+  background-size:cover;
+}
+
+.bg-2 {
+//  background: url('/assets/example/bg_suburb.jpg') no-repeat top center fixed;
+  background-color: #6bff53;
+  background-size:cover;
+}
+
+.bg-3 {
+//  background: url('/assets/example/bg_blueplane.jpg') no-repeat bottom center fixed;
+  background-color: #7671ff;
+  background-size:cover;
+}
+
+#footer {
+  height: 60px;
+  background-color:#585858;
+  margin-top:50px;
+  padding-top:20px;
+}
+
+#footer a {
+  color:#efefef;
+}
+

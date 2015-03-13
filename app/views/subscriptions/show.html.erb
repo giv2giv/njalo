@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Donor:</strong>
+  <%= @subscription.user_id %>
+</p>
+
+<p>
+  <strong>Payment account:</strong>
+  <%= @subscription.payment_account_id %>
+</p>
+
+<p>
+  <strong>Charity:</strong>
+  <%= @subscription.charity_id %>
+</p>
+
+<p>
+  <strong>Processor subscription:</strong>
+  <%= @subscription.processor_subscription_id %>
+</p>
+
+<p>
+  <strong>Type subscription:</strong>
+  <%= @subscription.type_subscription %>
+</p>
+
+<p>
+  <strong>Gross amount:</strong>
+  <%= @subscription.gross_amount %>
+</p>
+
+<p>
+  <strong>Canceled at:</strong>
+  <%= @subscription.canceled_at %>
+</p>
+
+<%= link_to 'Edit', edit_subscription_path(@subscription) %> |
+<%= link_to 'Back', subscriptions_path %>

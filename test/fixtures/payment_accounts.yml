@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  processor: MyString
+  user_id: 1
+  requires_reauth: false
+  external_account_id: MyString
+
+two:
+  processor: MyString
+  user_id: 1
+  requires_reauth: false
+  external_account_id: MyString
