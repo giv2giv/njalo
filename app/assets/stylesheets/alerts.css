@@ -1,0 +1,25 @@
+// Alert (error)
+.alert-error {
+  background-color: #e51c23;
+  border-color: #f7a4af;
+  color: #e51c23;
+}
+.alert-error hr {
+  border-top-color: #f58c9a;
+}
+.alert-error .alert-link {
+  color: #b9151b;
+}
+
+// Alert (notice)
+.alert-notice {
+  background-color: #9c27b0;
+  border-color: #cba4dd;
+  color: #9c27b0;
+}
+.alert-notice hr {
+  border-top-color: #c191d6;
+}
+.alert-notice .alert-link {
+  color: #771e86;
+}

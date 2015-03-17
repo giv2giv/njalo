@@ -1,6 +1,7 @@
 require 'nokogiri'
 require 'typhoeus'
 require 'csv'
+require 'securerandom'
 
 module CharityImport
   class Importer
@@ -86,13 +87,14 @@ module CharityImport
         request.run
       end
 
-      def tag_charity(charity)
+      def tag_charity_and_campaign(charity)
         tags = get_all_tags(charity)
         puts "Got all the tags: #{tags}" if @@verbose_with_misses
         tags.each do |name|
-          tag = Tag.where(:name => name).first_or_create
           begin
-            tag.charities << charity
+            tag = Tag.where(:name => name).first_or_create
+            tag.charities << charity # tag the charity
+            tag.campaigns << charity.user.campaigns.first # tag the charity's built-in campaign
             tag.save!
           rescue ActiveRecord::RecordNotUnique => e
             # just leave it if it already eixsts.
@@ -164,17 +166,17 @@ module CharityImport
           ein = row[0].to_s.strip
           next if ein.empty?
 
-          name = row[1].to_s.strip
+          name = row[1].to_s.strip.titleize
           deductibility_code = row[12].to_s.strip
           foundation_code = row[13].to_s.strip
-
-          puts "EIN:#{ein} Name:#{name} Deduction Code:#{deductibility_code} Foundation Code:#{foundation_code}" if @@verbose_with_misses
 
           if ((DESIRED_DEDUCTION_CODES.include?(deductibility_code)) && (DESIRED_FOUNDATION_CODES.include?(foundation_code)))
               active = true
           else
               active = false
           end
+
+          puts "EIN:#{ein} Name:#{name} Deduction Code:#{deductibility_code} Foundation Code:#{foundation_code} Active:#{active}" if @@verbose_with_misses
 
           ruling_date = row[11].to_s.strip
           if ruling_date.length==6 && ruling_date.to_i!=0 && ruling_date != '190900'
@@ -192,7 +194,7 @@ module CharityImport
 
           options = {
             :ein => ein,
-            :name => name.titleize,
+            :name => name,
             :care_of => row[2].to_s.strip,
             :address => row[3].to_s.strip.titleize,
             :city => row[4].to_s.strip.titleize,
@@ -222,16 +224,33 @@ module CharityImport
             :active => active
           }
 
-          puts "---Creating Charity with #{options.inspect}" if @@verbose_with_misses
+          begin
+            puts "---Creating Charity with #{options.inspect}" if @@verbose_with_misses
+            charity = Charity.where(ein: ein).first_or_initialize
+            charity.update!(options)
 
-          charity = Charity.where(ein: ein).first_or_create
+            #If there isn't one already, create a user for this charity, set campaign owner to user
+            if charity.user.nil?
+              charity.create_user(:email=>createRandomEmail, :password=>createRandomEmail)
+            end
+            charity.user.campaigns.first_or_create(:name=>name)
+            puts "Done" if @@verbose_with_misses
 
-          charity.update(options)
-          charity.campaigns.create!(:name=>name.titleize)
+          rescue ActiveRecord::RecordNotUnique => e
+            # just leave it if it already eixsts.
+          end
 
-          tag_charity(charity)
+          tag_charity_and_campaign(charity)
         end # end CSV.foreach
       end # end read_csv
-    end # end self
+    #end # end self
+    private
+      def createRandomEmail
+        SecureRandom.hex + "@njalo.org";
+      end
+      def createRandomPassword
+        SecureRandom.hex
+      end
+    end #end private/self
   end
 end

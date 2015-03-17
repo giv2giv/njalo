@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+
   mount StripeEvent::Engine => '/stripe'
 
   devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
@@ -12,10 +13,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :campaigns, only: [:index,:show] do
+  resources :campaigns, only: [:index,:show,:new,:edit,:update] do
     collection do
       get :autocomplete
       get :find_by_tag
+      get :near
+      get :prefetch_data
     end
     member do
       get :dwolla

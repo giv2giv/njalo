@@ -1,5 +1,6 @@
 class Campaign < ActiveRecord::Base
 
+  has_and_belongs_to_many :tags
   has_many :donations
   has_many :grants
   belongs_to :user
@@ -7,14 +8,14 @@ class Campaign < ActiveRecord::Base
   has_and_belongs_to_many :donors
   has_and_belongs_to_many :charities
 
-  validates :name, :presence => true, :uniqueness => { :case_sensitive => false }
+  validates :name, :presence => true
 
-  searchkick #settings: {number_of_shards: 1}
+  searchkick word_start: [:name], callbacks: :async
 
   def search_data
     {
       name: name#,
-      #tag_name: self.tags.map(&:name)
+#      tag_name: tags.map(&:name)
     }
   end
 

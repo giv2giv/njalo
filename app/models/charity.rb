@@ -1,6 +1,6 @@
 class Charity < ActiveRecord::Base
 
-  has_many :users, :as => :role
+  has_one :user, :as => :role
   has_and_belongs_to_many :tags
   has_and_belongs_to_many :campaigns
 
@@ -11,6 +11,7 @@ class Charity < ActiveRecord::Base
 
   #geocode on save if address changed
   #after_validation :geocode, if: ->(charity){ charity.address.present? and charity.address_changed? }
+  
   #geocode on load if charity not yet geocoded
   #after_find :geocode, if: ->(charity){ charity.address.present? and charity.latitude.nil? }
   #after_initialize do |charity|
@@ -18,16 +19,6 @@ class Charity < ActiveRecord::Base
       #charity.save!
     #end
   #end
-
-  searchkick text_start: ['name']
-
-  def search_data
-    {
-      name: name#,
-      #tag_name: self.tags.map(&:name)
-    }
-  end
-
 
   extend FriendlyId
   friendly_id :name, use: :slugged

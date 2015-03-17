@@ -1,21 +1,50 @@
 $(document).ready(function() {
 
-  $(document).on('init.slides', function() {
-  });
+  function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    }
+    else {
+      initializeTypeahead();
+    }
+  }
+  function showPosition(position) {
+    initializeTypeahead(position.coords.latitude, position.coords.longitude);
+  }
 
-  $('#slides').superslides({
-    slide_easing: 'easeInOutCubic',
-    slide_speed: 800,
-    pagination: true,
-    hashchange: true,
-    scrollable: true
-  });
+  function goToCampaign(campaign) {
+    window.location.href = '/campaigns/'+campaign.id;
+  }
 
-  document.ontouchmove = function(e) {
-    e.preventDefault();
-  };
-  //$('#slides').hammer().on('swipeleft', function() {    $(this).superslides('animate', 'next');  });
+  function initializeTypeahead(latitude, longitude) {
 
-  //$('#slides').hammer().on('swiperight', function() {    $(this).superslides('animate', 'prev');  });
+    var campaigns = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      //prefetch: '../campaigns/prefetch_data.json',
+      prefetch: '/campaigns/near.json',
+      remote: '/campaigns/autocomplete.json?q=%QUERY',
+      dupDetector: function(remoteMatch, localMatch) {
+        return remoteMatch.value === localMatch.value;
+      }
+    });
+     
+    campaigns.initialize();
+     
+    $('#remote .typeahead').typeahead(null, {
+      name: 'campaigns',
+      displayKey: 'value',
+      source: campaigns.ttAdapter()
+    });
+
+    $('.typeahead').on('typeahead:selected', function (e, datum) {
+      goToCampaign(datum); // onclick
+    }).on('typeahead:autocompleted', function (e, datum) {
+        goToCampaign(datum); // ontab
+    });
+
+  } // end initializeTypeahead
+
+  getLocation();
 
 });

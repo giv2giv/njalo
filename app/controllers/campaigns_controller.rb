@@ -1,12 +1,12 @@
 class CampaignsController < ApplicationController
 
-  before_action :set_campaign, only: [:show, :stripe, :dwolla, :widget_data]
+  before_action :set_campaign, only: [:show, :edit, :update, :stripe, :dwolla, :widget_data]
 
 	respond_to :html, :json
 
   def index
-    if params[:query].present?
-      @campaigns = Campaign.search(params[:query], page: params[:page], limit:25)
+    if params[:q].present?
+      @campaigns = Campaign.search(params[:q], page: params[:page], limit:25)
     else
       @campaigns = Campaign.all.page params[:page]
     end
@@ -17,13 +17,74 @@ class CampaignsController < ApplicationController
 #    end
   end
 
+  def prefetch_data
+    respond_with(Campaign.all.limit(100))
+  end
+
   def autocomplete
-    render json: Campaign.search(params[:query], fields: [{name: :text_start}], limit: 15).map(&:name)
+    render json: Campaign.search(params[:q], fields: [{name: :word_start}], limit: 30).map {|campaign| {value: campaign.name, id: campaign.id}}
+  end
+
+  def near
+    radius = (params[:radius] || 25).to_i
+    @campaigns = []
+
+    if radius > 100
+      radius = 100
+    end
+
+    location_by_ip = request.location
+
+    if location_by_ip.latitude==0.0
+      params[:latitude] = '38.149576'
+      params[:longitude] = '-79.0716958'
+    end
+
+    if params.has_key?(:latitude) && params.has_key?(:longitude)
+      @charities = Charity.near([params[:latitude].to_f, params[:longitude].to_f], radius, :order => "distance").limit(100)
+    else
+      @charities = Charity.near([location_by_ip.latitude, location_by_ip.longitude], radius, :order => "distance").limit(100)
+    end
+
+    if @charities.present?      
+      @charities.each do |charity|
+        charity.campaigns.each do |campaign|
+          @campaigns << campaign
+        end
+      end
+    end
+
+    respond_with(@charities.includes(:campaigns))
   end
 
   def show
-    respond_with(@campaign)
+    @campaign
   end
+
+  # GET /campaign/new
+  def new
+    @campaign = Campaign.new
+  end
+
+  # GET /campaign/1/edit
+  def edit
+    @campaign
+  end
+
+  # PATCH/PUT /campaign/1
+  # PATCH/PUT /campaign/1.json
+  def update
+    respond_to do |format|
+      if @campaign.update(campaign_params)
+        format.html { redirect_to @campaign, notice: 'Campaign was successfully updated.' }
+        format.json { render :show, status: :ok, location: @campaign }
+      else
+        format.html { render :edit }
+        format.json { render json: @campaign.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
 
 	def stripe
     amount =  params.fetch(:'njalo-amount') { raise 'njalo-amount required' }
@@ -191,7 +252,7 @@ class CampaignsController < ApplicationController
 
     def campaign_params
     	#Do something better here
-#      params.require(:campaign).permit(:user_id, :payment_account_id, :charity_id, :processor_subscription_id, :type_subscription, :gross_amount, :canceled_at)
+      params.require(:campaign).permit(:name, :initial_donation_amount, :initial_passthru_percent)
 
       #params[:campaign]
     end

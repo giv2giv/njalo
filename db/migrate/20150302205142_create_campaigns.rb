@@ -27,6 +27,7 @@ class CreateCampaigns < ActiveRecord::Migration
 
     add_index :campaigns_donors, [:campaign_id, :donor_id], name: :champaigns_donors_compound, unique: true
 
+
     #Now add charities to campaigns
     create_table :campaigns_charities, id: false do |t|
       t.belongs_to :campaign, null: false, index: true

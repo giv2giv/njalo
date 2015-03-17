@@ -64,6 +64,15 @@ ActiveRecord::Schema.define(version: 20150302205142) do
   add_index "campaigns_donors", ["campaign_id"], name: "index_campaigns_donors_on_campaign_id"
   add_index "campaigns_donors", ["donor_id"], name: "index_campaigns_donors_on_donor_id"
 
+  create_table "campaigns_tags", force: true do |t|
+    t.integer "campaign_id", null: false
+    t.integer "tag_id",      null: false
+  end
+
+  add_index "campaigns_tags", ["campaign_id", "tag_id"], name: "index_campaigns_tags_on_campaign_id_and_tag_id", unique: true
+  add_index "campaigns_tags", ["campaign_id"], name: "index_campaigns_tags_on_campaign_id"
+  add_index "campaigns_tags", ["tag_id"], name: "index_campaigns_tags_on_tag_id"
+
   create_table "charities", force: true do |t|
     t.string   "name"
     t.string   "display_name"
@@ -88,7 +97,7 @@ ActiveRecord::Schema.define(version: 20150302205142) do
     t.string   "income_code"
     t.string   "filing_requirement_code"
     t.string   "pf_filing_requirement_code"
-    t.string   "tax_period"
+    t.date     "tax_period"
     t.string   "accounting_period"
     t.integer  "asset_amount",               limit: 8
     t.integer  "income_amount",              limit: 8
@@ -112,6 +121,8 @@ ActiveRecord::Schema.define(version: 20150302205142) do
   end
 
   add_index "charities_tags", ["charity_id", "tag_id"], name: "index_charities_tags_on_charity_id_and_tag_id", unique: true
+  add_index "charities_tags", ["charity_id"], name: "index_charities_tags_on_charity_id"
+  add_index "charities_tags", ["tag_id"], name: "index_charities_tags_on_tag_id"
 
   create_table "donations", force: true do |t|
     t.integer  "donor_id",                                                              null: false

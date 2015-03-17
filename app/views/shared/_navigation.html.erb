@@ -9,6 +9,10 @@
       <%= link_to 'njalo', root_path, class: 'navbar-brand' %>
     </div>
     <div class="navbar-collapse collapse navbar-responsive-collapse">
+      <div class="navbar-left" id="remote">
+        <input class="typeahead form-control" type="text" placeholder="Search (e.g. 'hunger')" />
+      </div>
+
       <div class="navbar-right">
         <% if signed_in? %>
             <p class="navbar-text"><%= current_user.email %></p>

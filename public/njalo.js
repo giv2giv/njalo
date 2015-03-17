@@ -2,7 +2,7 @@
 
 var jQuery, $; // Localize jQuery variables
 
-var HOST = 'http://api.giv2giv.org:3000/'; // also set host in widget_example.html
+var HOST = 'http://10.0.0.1:3000/'; // also set host in widget_example.html
 var STRIPE_KEY = 'pk_test_d678rStKUyF2lNTZ3MfuOoHy';
 
 function loadScript(url, callback) {
@@ -99,7 +99,7 @@ function main() {
       $.getJSON(json_url, function(campaign) {
         var dialog = $( "#njalo-dialog" ).dialog({
           autoOpen: false,
-          title: "Donate to " + campaign.name,
+          title: "Donate to " + campaign.name + " through giv2giv.org",
           height: 600,
           width: 500,
           modal: true,
@@ -378,8 +378,8 @@ var returnFormattedDonationDetails = function (amount, passthru, assumeFees) {
   amount_invested = net_amount - amount_passthru;
 
   val = "<h1>Summary:</h1>You will donate: $" + transactionAmount.formatMoney(2, '.', ',');
-  val += "<br />$" + amount_passthru.formatMoney(2, '.', ',') + " will be passed-thru for immediate impact.";
-  val += "<br />$" + amount_invested.formatMoney(2, '.', ',') + " will be invested, becoming a legacy that grants to your campaign forever!";
+  val += "<br />$" + amount_passthru.formatMoney(2, '.', ',') + " will be sent to the charities for immediate impact.";
+  val += "<br />$" + amount_invested.formatMoney(2, '.', ',') + " will be invested, becoming a legacy that grants to your charities forever!";
   return val;
 }
 
